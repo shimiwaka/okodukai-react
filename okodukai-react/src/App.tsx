@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Top from './pages/Top'
+import Board from './pages/Board'
 import { Routes, Route, Link } from "react-router-dom";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Top />} />
+          <Route path="/board/:token" element={<Board />} />
         </Routes>
       </div>
     </>
