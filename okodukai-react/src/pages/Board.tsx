@@ -9,12 +9,14 @@ const Board = () => {
   const [owner, setOwner] = React.useState<string>();
   const [newColumn, setNewColumn] = React.useState<string>("");
   const [columns, setColumns] = React.useState<any[]>([]);
+  const [table, setTable] = React.useState<any[]>([]);
 
   React.useEffect(() => {
     axios.get(targetURL + "board/" + params.token)
     .then((response : any) => {
       setOwner(response.data.owner);
       setColumns(response.data.columns);
+      setTable(response.data.days);
     })
   
   }, [params.token]);
@@ -32,6 +34,7 @@ const Board = () => {
       .then((response : any) => {
         setOwner(response.data.owner);
         setColumns(response.data.columns);
+        setTable(response.data.days);
       })
     })
   }
@@ -48,7 +51,36 @@ const Board = () => {
         </button>
       </div>
       <div>
-        { columns.map((value) => <li>{value.name}</li>)}
+        <table>
+          <tr>
+            <td>
+              日付
+            </td>
+            { columns.map((value) => <td>{value.name}</td>)}
+          </tr>
+          {
+            table.map((value) => { 
+              return (
+                <tr>
+                  <td>{value.date}</td>
+                  {
+                    value.checked.map((v : any) => {
+                      if (v) {
+                        return (
+                          <td>◯</td>
+                        )
+                      } else {
+                        return (
+                          <td>✕</td>
+                        )                        
+                      }
+                    })
+                  }
+                </tr> 
+              )
+            }
+          )}
+        </table>
       </div>
     </>
   )
