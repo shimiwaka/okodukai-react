@@ -9,6 +9,9 @@ const Top = () => {
 
   const navigate = useNavigate()
   const createBoard = () => {
+    if (email == "") {
+      return
+    }
     var params = new URLSearchParams()
     params.append('email', email)
     axios.post(targetURL + "create", params)
