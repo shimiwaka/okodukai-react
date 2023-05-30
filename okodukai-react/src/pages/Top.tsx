@@ -9,11 +9,10 @@ const Top = () => {
 
   const navigate = useNavigate()
   const createBoard = () => {
-    axios.post(targetURL + "create", { email: email }, {
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    })
+    var params = new URLSearchParams()
+    params.append('email', email)
+    axios.post(targetURL + "create", params)
     .then((response : any) => {
-      console.log(response.data);
       navigate("/board/" + response.data.token)
     })
   }
