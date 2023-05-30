@@ -20,6 +20,11 @@ const Board = () => {
     })
   
   }, [params.token]);
+  
+  const formatDate = (date : string) => {
+    var fdates = date.split('T');
+    return fdates[0];
+  }
 
   const createColumn = () => {
     if (newColumn == "") {
@@ -37,6 +42,11 @@ const Board = () => {
         setTable(response.data.days);
       })
     })
+  }
+
+  const check = (date : string, column : number) => {
+    alert(date);
+    alert(column);
   }
 
   return (
@@ -62,16 +72,16 @@ const Board = () => {
             table.map((value) => { 
               return (
                 <tr>
-                  <td>{value.date}</td>
+                  <td>{formatDate(value.date)}</td>
                   {
-                    value.checked.map((v : any) => {
+                    value.checked.map((v : any, idx : number) => {
                       if (v) {
                         return (
-                          <td>◯</td>
+                          <td><button type="submit">◯</button></td>
                         )
                       } else {
                         return (
-                          <td>✕</td>
+                          <td><button type="submit" onClick={(e) => check(formatDate(value.date), idx)}>✕</button></td>
                         )                        
                       }
                     })
