@@ -57,6 +57,18 @@ const Board = () => {
       })
     })
   }
+  
+  const uncheck = (date : string, column : number) => {
+    axios.get(targetURL + "board/" + params.token + "/uncheck/" + date + "/" + column)
+    .then((response : any) => {
+      axios.get(targetURL + "board/" + params.token)
+      .then((response : any) => {
+        setOwner(response.data.owner);
+        setColumns(response.data.columns);
+        setTable(response.data.days);
+      })
+    })
+  }
 
   return (
     <>
@@ -87,7 +99,7 @@ const Board = () => {
                     value.checked.map((v : any, idx : number) => {
                       if (v) {
                         return (
-                          <td><button type="submit">◯</button></td>
+                          <td><button type="submit" onClick={(e) => uncheck(formatDate(value.date), idx)}>◯</button></td>
                         )
                       } else {
                         return (
