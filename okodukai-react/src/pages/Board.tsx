@@ -13,14 +13,17 @@ const Board = () => {
   const [table, setTable] = React.useState<any[]>([]);
 
   React.useEffect(() => {
+    refreshTable()
+  }, [params.token]);
+
+  const refreshTable = () => {
     axios.get(targetURL + "board/" + params.token)
     .then((response : any) => {
       setOwner(response.data.owner);
       setColumns(response.data.columns);
       setTable(response.data.days);
     })
-  
-  }, [params.token]);
+  }
   
   const formatDate = (date : string) => {
     var fdates = date.split('T');
@@ -37,36 +40,21 @@ const Board = () => {
     axios.post(targetURL + "board/" + params.token + "/newcolumn" , postParams)
     .then((response : any) => {
       setNewColumn("")
-      axios.get(targetURL + "board/" + params.token)
-      .then((response : any) => {
-        setOwner(response.data.owner);
-        setColumns(response.data.columns);
-        setTable(response.data.days);
-      })
+      refreshTable()
     })
   }
 
   const check = (date : string, column : number) => {
     axios.get(targetURL + "board/" + params.token + "/check/" + date + "/" + column)
     .then((response : any) => {
-      axios.get(targetURL + "board/" + params.token)
-      .then((response : any) => {
-        setOwner(response.data.owner);
-        setColumns(response.data.columns);
-        setTable(response.data.days);
-      })
+      refreshTable()
     })
   }
   
   const uncheck = (date : string, column : number) => {
     axios.get(targetURL + "board/" + params.token + "/uncheck/" + date + "/" + column)
     .then((response : any) => {
-      axios.get(targetURL + "board/" + params.token)
-      .then((response : any) => {
-        setOwner(response.data.owner);
-        setColumns(response.data.columns);
-        setTable(response.data.days);
-      })
+      refreshTable()
     })
   }
 
