@@ -21,7 +21,11 @@ const Board = () => {
     .then((response : any) => {
       setOwner(response.data.owner);
       setColumns(response.data.columns);
-      setTable(response.data.days);
+      if (response.data.days) {
+        setTable(response.data.days.reverse());
+      } else {
+        setTable(response.data.days);
+      }
     })
   }
   
@@ -58,6 +62,18 @@ const Board = () => {
     })
   }
 
+  const newPayment = (date : string) => {
+    axios.get(targetURL + "board/" + params.token + "/newpayment/" + date)
+    .then((response : any) => {
+      refreshTable()
+    })
+  }
+  const cancelPayment = (date : string) => {
+    axios.get(targetURL + "board/" + params.token + "/cancelpayment/" + date)
+    .then((response : any) => {
+      refreshTable()
+    })
+  }
   return (
     <>
       <div>
@@ -77,6 +93,9 @@ const Board = () => {
               日付
             </td>
             { columns.map((value) => <td>{value.name}<br/>{value.price}</td>)}
+            <td>
+              精算
+            </td>
           </tr>
           {
             table.map((value) => { 
@@ -92,10 +111,13 @@ const Board = () => {
                       } else {
                         return (
                           <td><button type="submit" onClick={(e) => check(formatDate(value.date), idx)}>✕</button></td>
-                        )                        
+                        )
                       }
                     })
                   }
+                  <td>
+                    { value.payment == -1 ? <button type="submit" onClick={(e) => newPayment(formatDate(value.date))}>精算する</button> : value.payment }
+                  </td>
                 </tr> 
               )
             }
