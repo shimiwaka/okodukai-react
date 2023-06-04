@@ -77,22 +77,20 @@ const Board = () => {
   return (
     <>
       <div>
-        管理者：{owner}
-      </div>
-      <div>
-        <input placeholder="おてつだいを追加" value={newColumn} onChange={(e) => setNewColumn(e.target.value)}/>
-        <input placeholder="単価" value={newPrice} onChange={(e) => setNewPrice(Number(e.target.value))}/>円
+        <input placeholder="おてつだいを追加" value={newColumn} onChange={(e) => setNewColumn(e.target.value)} className="Column-name"/>
+        <input placeholder="単価" value={newPrice} onChange={(e) => setNewPrice(Number(e.target.value))} className="Column-price"/>円
         <button type="submit" onClick={createColumn}>
           追加
         </button>
       </div>
-      <div>
+      <hr />
+      <div className="Table">
         <table>
           <tr>
             <td>
               日付
             </td>
-            { columns.map((value) => <td>{value.name}<br/>{value.price}</td>)}
+            { columns.map((value) => <td>{value.name}<br/>({value.price}円)</td>)}
             <td>
               精算
             </td>
@@ -106,19 +104,19 @@ const Board = () => {
                     value.checked.map((v : any, idx : number) => {
                       if (v) {
                         return (
-                          <td><button type="submit" onClick={(e) => uncheck(formatDate(value.date), idx)}>◯</button></td>
+                          <td><button type="submit" onClick={(e) => uncheck(formatDate(value.date), idx)} className="Checked-button">◯</button></td>
                         )
                       } else {
                         return (
-                          <td><button type="submit" onClick={(e) => check(formatDate(value.date), idx)}>✕</button></td>
+                          <td><button type="submit" onClick={(e) => check(formatDate(value.date), idx)} className="Not-checked-button">✕</button></td>
                         )
                       }
                     })
                   }
                   <td>
                     { value.payment == -1 ?
-                     <button type="submit" onClick={(e) => newPayment(formatDate(value.date))}>精算する</button> :
-                     <button type="submit" onClick={(e) => cancelPayment(formatDate(value.date))}>{value.payment}</button> }
+                     <button type="submit" onClick={(e) => newPayment(formatDate(value.date))} className="Payment-button">精算</button> :
+                     <button type="submit" onClick={(e) => cancelPayment(formatDate(value.date))} className="Cancel-payment-button">{value.payment}円</button> }
                   </td>
                 </tr> 
               )
