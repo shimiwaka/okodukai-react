@@ -116,7 +116,9 @@ const Board = () => {
                     })
                   }
                   <td>
-                    { value.payment == -1 ? <button type="submit" onClick={(e) => newPayment(formatDate(value.date))}>精算する</button> : value.payment }
+                    { value.payment == -1 ?
+                     <button type="submit" onClick={(e) => newPayment(formatDate(value.date))}>精算する</button> :
+                     <button type="submit" onClick={(e) => cancelPayment(formatDate(value.date))}>{value.payment}</button> }
                   </td>
                 </tr> 
               )
