@@ -28,7 +28,7 @@ const Board = () => {
   }
 
   const createColumn = () => {
-    if (newColumn == "") {
+    if (newColumn === "") {
       return
     }
     var postParams = new URLSearchParams()
@@ -47,8 +47,15 @@ const Board = () => {
   }
 
   const check = (date : string, column : number) => {
-    alert(date);
-    alert(column);
+    axios.get(targetURL + "board/" + params.token + "/check/" + date + "/" + column)
+    .then((response : any) => {
+      axios.get(targetURL + "board/" + params.token)
+      .then((response : any) => {
+        setOwner(response.data.owner);
+        setColumns(response.data.columns);
+        setTable(response.data.days);
+      })
+    })
   }
 
   return (
