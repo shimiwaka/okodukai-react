@@ -11,7 +11,7 @@ function App() {
     <header>
       <span className="Title">
         <Link to="/">
-          <h3>おこづかいシート</h3>
+          <h3>おこづかい帳</h3>
         </Link>
       </span>
     </header>

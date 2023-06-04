@@ -6,7 +6,6 @@ const targetURL: string = process.env.REACT_APP_BASE_URL || "";
 
 const Board = () => {  
   const params = useParams();
-  const [owner, setOwner] = React.useState<string>();
   const [newColumn, setNewColumn] = React.useState<string>("");
   const [newPrice, setNewPrice] = React.useState<number>(100);
   const [columns, setColumns] = React.useState<any[]>([]);
@@ -14,12 +13,12 @@ const Board = () => {
 
   React.useEffect(() => {
     refreshTable()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.token]);
 
   const refreshTable = () => {
     axios.get(targetURL + "board/" + params.token)
     .then((response : any) => {
-      setOwner(response.data.owner);
       setColumns(response.data.columns);
       if (response.data.days) {
         setTable(response.data.days.reverse());
@@ -27,6 +26,9 @@ const Board = () => {
         setTable(response.data.days);
       }
     })
+    .catch((error : any) => {
+      alert("サーバーエラーが発生しました。しばらくしてから再度お試しください。");
+    });
   }
   
   const formatDate = (date : string) => {
@@ -46,6 +48,18 @@ const Board = () => {
       setNewColumn("")
       refreshTable()
     })
+    .catch((error : any) => {
+      alert("サーバーエラーが発生しました。しばらくしてから再度お試しください。");
+    });
+  }
+  const deleteColumn = (idx : number) => {
+    axios.get(targetURL + "board/" + params.token + "/deletecolumn/" + idx)
+    .then((response : any) => {
+      refreshTable()
+    })
+    .catch((error : any) => {
+      alert("サーバーエラーが発生しました。しばらくしてから再度お試しください。");
+    });
   }
 
   const check = (date : string, column : number) => {
@@ -53,6 +67,9 @@ const Board = () => {
     .then((response : any) => {
       refreshTable()
     })
+    .catch((error : any) => {
+      alert("サーバーエラーが発生しました。しばらくしてから再度お試しください。");
+    });
   }
   
   const uncheck = (date : string, column : number) => {
@@ -60,6 +77,9 @@ const Board = () => {
     .then((response : any) => {
       refreshTable()
     })
+    .catch((error : any) => {
+      alert("サーバーエラーが発生しました。しばらくしてから再度お試しください。");
+    });
   }
 
   const newPayment = (date : string) => {
@@ -67,12 +87,18 @@ const Board = () => {
     .then((response : any) => {
       refreshTable()
     })
+    .catch((error : any) => {
+      alert("サーバーエラーが発生しました。しばらくしてから再度お試しください。");
+    });
   }
   const cancelPayment = (date : string) => {
     axios.get(targetURL + "board/" + params.token + "/cancelpayment/" + date)
     .then((response : any) => {
       refreshTable()
     })
+    .catch((error : any) => {
+      alert("サーバーエラーが発生しました。しばらくしてから再度お試しください。");
+    });
   }
   return (
     <>
@@ -90,7 +116,7 @@ const Board = () => {
             <td>
               日付
             </td>
-            { columns.map((value) => <td>{value.name}<br/>({value.price}円)</td>)}
+            { columns.map((value : any, idx : number) => <td>{value.name} <button className="Delete-button" onClick={(e) => deleteColumn(idx)}>✕</button><br/>({value.price}円)</td>)}
             <td>
               精算
             </td>
@@ -114,7 +140,7 @@ const Board = () => {
                     })
                   }
                   <td>
-                    { value.payment == -1 ?
+                    { value.payment === -1 ?
                      <button type="submit" onClick={(e) => newPayment(formatDate(value.date))} className="Payment-button">精算</button> :
                      <button type="submit" onClick={(e) => cancelPayment(formatDate(value.date))} className="Cancel-payment-button">{value.payment}円</button> }
                   </td>

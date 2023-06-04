@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
 .Title { 
   text-align: center;
 }
@@ -27,10 +22,8 @@ td {
   width: 45px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Delete-button {
+  font-size: 4px;
 }
 
 .App-header {
@@ -42,10 +35,6 @@ td {
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-button {
-  padding: 5px;
 }
 
 .Checked-button {
@@ -66,16 +55,6 @@ button {
   border: 0px;
 }
 
-
 .App-link {
   color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }
